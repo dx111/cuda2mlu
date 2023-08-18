@@ -5,17 +5,10 @@ import os
 
 def generate_sitecustomize():
     sitecustomize_content = '''
-import sys
-import builtins
-
-def my_import_hook(name, *args, **kwargs):
-    if name == 'torch':
-        from cuda2mlu import torch_proxy
-    return original_import(name, *args, **kwargs)
-
-original_import = builtins.__import__
-builtins.__import__ = my_import_hook
-
+try:
+    from cuda2mlu import torch_proxy
+except:
+    pass
 '''
 
     site_packages_dir = site.getsitepackages()[0]
