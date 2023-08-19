@@ -2,29 +2,6 @@ from setuptools import setup
 import site
 import os
 
-
-def generate_sitecustomize():
-    sitecustomize_content = '''
-try:
-    from cuda2mlu import torch_proxy
-except:
-    pass
-'''
-
-    site_packages_dir = site.getsitepackages()[0]
-    sitecustomize_path = os.path.join(site_packages_dir, "sitecustomize.py")
-    with open(sitecustomize_path, "w") as f:
-        f.write(sitecustomize_content)
-
-def remove_sitecustomize():
-    site_packages_dir = site.getsitepackages()[0]
-    sitecustomize_path = os.path.join(site_packages_dir, "sitecustomize.py")
-
-    if os.path.exists(sitecustomize_path):
-        os.remove(sitecustomize_path)
-
-generate_sitecustomize()
-
 setup(
     name="cuda2mlu",
     version="0.1",
@@ -32,6 +9,11 @@ setup(
     packages=["cuda2mlu"],
     install_requires=["torch"],
     setup_requires=["torch"],
+    entry_points={
+        'console_scripts': [
+            'cuda2mlu = cuda2mlu:cmd',
+        ]
+    },
     python_requires=">=3.6"
 )
 
