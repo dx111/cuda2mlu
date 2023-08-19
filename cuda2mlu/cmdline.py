@@ -1,9 +1,8 @@
 import os
-import site
 import argparse
 import shutil
-
 import torch
+import warnings
 
 init_path = torch.__file__
 backup_file = torch.__file__ + ".backup"
@@ -27,6 +26,8 @@ except Exception as e:
 def recover_init_file():
     if os.path.exists(backup_file):
         shutil.copyfile(backup_file, init_path)
+    else:
+        warnings.warn(f"no backup file found in {backup_file}")
 
 def str_to_bool(string:str):
     if string in ["0","off","f","F","false","False"]:
