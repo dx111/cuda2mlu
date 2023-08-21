@@ -14,7 +14,7 @@ def modify_init_file():
         source_code = f.read()
     source_code +="""
 try:
-    from cuda2mlu import torch_proxy
+    from cuda2mlu import torch_wrap
 except Exception as e:
     import warnings
     warnings.simplefilter("always")
